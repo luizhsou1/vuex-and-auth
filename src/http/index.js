@@ -1,22 +1,22 @@
-import axios from   'axios'
+import axios from 'axios'
+import provedor from '@/provedor'
 
 const http = axios.create({
     baseURL: 'http://localhost:8000/',
     headers: {
         'Accept': 'application/json',
-        'Content': 'application/json',
+        'Content': 'application/json'
     }
 })
 
-// Adiociona a todas as requisições o token de acesso
-http.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token')
+http.interceptors.request.use(function (config) {
+    const token = provedor.state.token
     if (token) {
         config.headers.Authorization = `Bearer ${token}`
     }
     return config
-}, (error) => {
-    return Promise.reject(error)
+}, function (erro) {
+    return Promise.reject(erro)
 })
 
-export default http;
+export default http
